@@ -1,16 +1,16 @@
-# 对于BasicMod
+# For BasicMod
 
-## 日志
+## Log
 
-`BasicMod`提供了`LogInfo`, `LogWarning`, `LogError`三个静态函数来打印日志, 会带上模组名称的前缀
+`BasicMod` provides three static methods to print log with mod name as prefix: `LogInfo`, `LogWarning`, `LogError`.
 
-## 实例
+## Mod Instance
 
-`BasicMod`提供了`Instance`静态属性可以直接访问模组主类的实例
+`BasicMod` provides static property to visit your mod instance directly: `Instance`.
 
-## 模组信息
+## Mod Info
 
-`BasicMod`提供了`GetDeclaration`能够获取模组声明信息(`ModDeclare`, 不是`ModDeclaration`, 这个名给可恶的NCMS用作命名空间了, 为了方便代码编写, 故改名), 包括模组名, 所在文件夹等, 具体定义如下
+You can get your mod declaration through `BasicMod:GetDeclaration`. Definition of mod declaration is below:
 
 ```csharp
 // 部分字段不在此处展示, 具体见 `基础概念/模组声明`
@@ -31,9 +31,9 @@ public class ModDeclare
     // 必需依赖
     public string[] Dependencies { get; private set; }
     // 可选依赖
-    public string[] OptionalDependencies { get; private set; }\
+    public string[] OptionalDependencies { get; private set; }
     // mod.json文件所在文件夹路径
-    public string FolderPath { get; private set; } = null!;
+    public string FolderPath { get; private set; };
     // 图标路径(相对于mod.json文件所在文件夹路径)
     public string IconPath { get; private set; }
 }

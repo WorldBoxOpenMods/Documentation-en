@@ -1,40 +1,46 @@
-# 两个可选项:
+There are two options: create from mod template or from empty folder.
 
-1. 从Mod模板创建
-2. 从空文件夹创建
+- [Create from mod template](#create-from-mod-template)
+- [Create from empty folder](#create-from-empty-folder)
+  - [Create folder](#create-folder)
+  - [Configure IDE](#configure-ide)
+- [Load your mod](#load-your-mod)
 
-# 从Mod模板创建
+# Create from mod template
 
-如果你会使用Git并且有配置SSH Key后的Github的话, 在`GamePath/Mods`下执行即可
+If you know how to use git and have SSH Key configured on Github, just execute the command under `GAMEPATH/Mods`
 
 ```shell
-git clone git@github.com:WorldBoxOpenMods/ModTemplate.git 模组名
+git clone git@github.com:WorldBoxOpenMods/ModTemplate.git <ModName>
 ```
 
-如果你不会的话, 下载[压缩包](https://github.com/WorldBoxOpenMods/ModTemplate/archive/refs/heads/master.zip), 并解压到`GamePath/Mods`文件夹下
+Otherwise, download [ModTemplate](https://github.com/WorldBoxOpenMods/ModTemplate/archive/refs/heads/master.zip), and unzipped it under the folder `GAMEPATH/Mods`.
 
-应该得到类似于这样的文件夹结构, 注意目录
+Then your folder structure should be like this. Pay attention to directory.
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+![Mod Structure](../.gitbook/assets/unzip-mod-template.png)
 
-有几个文件必须要修改
+There are several files neccessary to modify
 
-1. `mod.json` 将"name"的值改为模组名, "author"的值改为作者名
-2. `ModClass.cs` 将"CHANGEME"改为你的模组的命名空间, 尽量保证不要和别的模组重复
+1. `mod.json` Modify value of "name" to mod name, "author" to author name. "GUID" to global unique ID of your mod(Determine the ID by yourself to avoid collision with other mods)
+2. `ModClass.cs` Modify "CHANGEME" to your mod's namespace, and avoid collision with other mods
 
-然后在`ModClass.cs`文件中的`OnModLoad`函数中初始化你的模组. `BasicMod`继承自`MonoBehaviour`, 你可以实现`MonoBehaviour`所有其他的函数. 
+Then initialize your mod in `OnModLoad` in file `ModClass.cs`. `BasicMod` inherits from `MonoBehaviour`, you can implement other methods of `MonoBehaviour` like `Update`. 
 
-# 从空文件夹创建
 
-在`GamePath/Mods`文件夹下创建一个文件夹, 在里面放一个下面所示的`mod.json`和`Main.cs`文件, 其中的中文均需要修改
+# Create from empty folder
+
+## Create folder
+Create a folder under `GAMEPATH/Mods`, create such two files `mod.json` and `Main.cs` like below. If you use IDE, you should create a `.Net Framework4.8` project under `GAMEPATH/Mods`. 
 
 ```json
 // mod.json
 {
-    "name": "模组名",
-    "author": "作者名",
-    "version": "版本号",
-    "description": "模组描述"
+    "name": "Change me to Mod name",
+    "author": "Change me to Author name",
+    "version": "Change me to Mod version",
+    "description": "Change me to Mod description",
+    "GUID": "Change me to Global Unique ID of your mod"
 }
 ```
 
@@ -43,7 +49,7 @@ git clone git@github.com:WorldBoxOpenMods/ModTemplate.git 模组名
 using UnityEngine;
 using NeoModLoader.api;
 using NeoModLoader.services;
-namespace 命名空间名;
+namespace CHANGEME_TO_YOUR_NAMESPACE;
 
 public class ModClass : IMod, MonoBehaviour
 {
@@ -60,31 +66,30 @@ public class ModClass : IMod, MonoBehaviour
     }
     public string GetUrl()
     {
-        return "你模组的网站URL, 没有的话可以填仓库URL, 也可以填创意工坊物品页面, 也可以乱填";
+        return "URL of your mod's website or item page on workshop";
     }
     public void OnLoad(ModDeclare pModDecl, GameObject pGameObject)
     {
         _declare = pModDecl;
         _gameObject = pGameObject;
-        // 加载你的模组内容, 这个函数的调用甚至早于第一次Awake
-        // OnLoad -> Awake -> OnEnable -> Start -> Update
+        // Initialize your mod.
+        // Methods are called in the order: OnLoad -> Awake -> OnEnable -> Start -> Update
         LogService.LogInfo($"[{pModDecl.Name}]: Hello World!");
     }
 }
 ```
+## Configure IDE
 
-到这里一个最简单的模组已经完成.
+Add references to your project. Or you can find the `.csproj` example in [ExampleMod.csproj](https://github.com/WorldBoxOpenMods/ModExample/blob/master/ExampleMod.csproj)(DO NOT COPY ALL DIRECTLY. YOU SHOULD DISTINGUISH WHAT IS USABLE)
 
-# 注意
+# Load your mod
 
-对于一个实现`IMod`的模组(包括继承了`BasicMod`的模组), 函数调用顺序会是`OnLoad`(`OnModLoad`)->`Awake`->`OnEnable`->`Start`->`Update`->`Update`->...->`Update`
+You have made a simplest mod now. Launch WorldBox now.
 
-# 加载运行模组
-
-如果没有出错的话, 应该能够在游戏控制台里找到
+If there are no problems above, you can find this in console:
 
 ```log
-[NML]: [模组名]: Hello World!
+[NML]: [Mod Name]: Hello World!
 ```
 
-除此之外, 在NML的模组列表里也应该能够找到你的模组
+And you can also find your mod in "Mods" window provided by NML.
