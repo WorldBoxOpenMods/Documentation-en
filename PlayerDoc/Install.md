@@ -10,6 +10,8 @@ Mods require "Experimental Mode" enabled. So first of all, enable "Experimental 
 
 # Get NML File
 
+There are multiple approaches. The most suggested one is to [download on Github](#github).
+
 ## Steam Workshop
 
 ### Download
@@ -19,9 +21,13 @@ Subscribe the item on the [website](https://steamcommunity.com/sharedfiles/filed
 ### Find File
 
 ![find1](../.gitbook/assets/find-nml-files1.png)
+
 ![find2](../.gitbook/assets/find-nml-files2.png)
+
 Change `common/worldbox` to `workshop\content\1206560\3080294469`
+
 ![find3](../.gitbook/assets/find-nml-files3.png)
+
 The selected file is neccessary.
 
 ## Github
@@ -39,6 +45,7 @@ It is recommended to subscribe to the NML item on the Steam Workshop to receive 
 Easily, move `NeoModLoader.dll` to appropriate path.
 
 First, go to game path:
+
 ![find1](../.gitbook/assets/find-nml-files1.png)
 
 ## Windows/Linux
