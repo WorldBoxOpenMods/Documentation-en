@@ -42,7 +42,7 @@ It is recommended to subscribe to the NML item on the Steam Workshop to receive 
 
 # Install NML
 
-Easily, move `NeoModLoader.dll` to appropriate path.
+Easily, copy/move `NeoModLoader.dll` to appropriate path.
 
 First, go to game path:
 
@@ -50,11 +50,15 @@ First, go to game path:
 
 ## Windows/Linux
 
-Go to `worldbox_Data/StreamingAssets/mods` under game folder
+Go to `worldbox_Data/StreamingAssets/mods` under game folder. Copy the `.dll` file found above to here. Like this:
+
+![install-result](../.gitbook/assets/install-result.png)
 
 ## MacOS
 
  >Right-click the worldbox icon in the worldbox folder, select "Show Package Contents", then go to Contents, then Resources, then Data, then StreamingAssets, then mods.<sup><a href="#ref1">1</a></sup>
+ 
+ Copy the `.dll` file found above to here. 
 
 # References
 
