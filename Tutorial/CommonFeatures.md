@@ -13,71 +13,59 @@
 You can get your mod declaration through `BasicMod:GetDeclaration`. Definition of mod declaration is below:
 
 ```csharp
-// 部分字段不在此处展示, 具体见 `基础概念/模组声明`
+// Some fields are not shown here, see 'Basic Concept/Mod Declaration' for details
 public class ModDeclare
 {
-    // 模组名
+    // Mod's name
     public string Name { get; private set; }
-    // 模组ID
+    // Mod's ID(It should be unique)
     public string UID { get; private set; }
-    // 作者
+    // Mod's author
     public string Author { get; private set; }
-    // 版本
+    // Mod's version
     public string Version { get; private set; }
-    // 描述/简介
+    // Mod's simple description
     public string Description { get; private set; }
-    // 仓库地址
+    // URL to repository of the mod
     public string RepoUrl { get; private set; }
-    // 必需依赖
+    // Necessary(hard) dependencies
     public string[] Dependencies { get; private set; }
-    // 可选依赖
+    // Optional(soft) dependencies
     public string[] OptionalDependencies { get; private set; }
-    // mod.json文件所在文件夹路径
+    // Path to the folder of mod.json
     public string FolderPath { get; private set; };
-    // 图标路径(相对于mod.json文件所在文件夹路径)
+    // Path to mod's icon file(Related to the folder of mod.json)
     public string IconPath { get; private set; }
 }
 ```
 
-`BasicMod`提供了`GetLocaleFilesDirectory(ModDeclare)`能够直接获取本地化文件所在文件夹路径. 传入`GetDeclaration`的结果作为参数.
+## Mod Configuration Window
 
-## 模组设置
+`BasicMod` is a mod providing configuring. You can get instance of `ModConfig` with `GetConfig`, Detailed see [Mod Configuration](../BasicConcept/ModConfiguration.md)
 
-`BasicMod`默认是一个提供设置界面的Mod, 你可以通过`GetConfig`来获取`ModConfig`实例, 具体用法见[模组设置](../BasicConcept/ModConfiguration.md)
+## Multiligual
 
-## 多语言
+Create a folder named `Locales`, and refers to [ModExample](https://github.com/WorldBoxOpenMods/ModExample/tree/master/Locales). Only json and csv files are supported.
 
-在模组文件夹下创建`Locales`文件夹, 参考`ModTemplate`中的写法即可. 目前仅支持json和csv文件.
+# Others Common Features
 
-# 其他常用特性
+## Log
 
-## 日志
+`NeoModLoader.services.LogService` provides
 
-`NeoModLoader.services.LogService`提供了
+* Normal: `LogInfo`,`LogWarning`,`LogError`,
+* Print stack trace: `LogStackTraceAsInfo`, `LogStackTraceAsWarning`, `LogStackTraceAsError`
+* Used in multiple threads: `LogInfoConcurrent`, `LogWarningConcurrent`, `LogErrorConcurrent`.
 
-* 一般的`LogInfo`,`LogWarning`,`LogError`三件套,
-* 打印调用堆栈的`LogStackTraceAsInfo`, `LogStackTraceAsWarning`, `LogStackTraceAsError`
-* 在多线程情况下使用的`LogInfoConcurrent`, `LogWarningConcurrent`, `LogErrorConcurrent`.
+## Sprite
 
-## 贴图
+Create a folder named `GameResources` under your mod folder. `.png`, `.jpg`, `.jpeg` files will be explained by `sprites.json` or corresponding `.meta` files and loaded into game.
 
-在模组文件夹下创建一个名为`GameResources`的文件夹, 其中的`.png`,`.jpg`,`.jpeg`会由对应的`.meta`文件或`sprites.json`文件解释然后加载进游戏, 可以通过`Resources.Load`, `SpriteTextureLoader.getSprite`相关函数进行加载. 具体见[模组资源概览](../ModResources/Overview.md).
+Then you can get them through `Resources.Load`, `SpriteTextureLoader.getSprite` or other related functions.
 
-`NeoModLoader.utils.SpriteLoadUtils`提供了
+Detailed see [Resources Overview](../ModResources/Overview.md)
 
-* `LoadSingleSprite(string)`来加载指定系统路径下的图片文件
-* `LoadSprites(string)`搜寻相关联的`.meta`文件(解释为一个`TextureImporter`, 并提供了一个`SpriteSheet`)或`sprites.json`来加载路径下的图片文件
+`NeoModLoader.utils.SpriteLoadUtils` provides
 
-## 模组名/作者/简介多语言
-
-如果要你的模组在英文环境下 模组名/作者/简介显示为英文(en)，则需要添加本地化文本，相应的key为:
-
-1. `模组名_en`
-2. `作者_en`
-3. `简介_en`
-
-## AssetBundle拓展
-
-`NeoModLoader.utils.AssetBundleUtils`提供了加载`AssetBundle`文件为`WrappedAssetBundle`的方法(同时避免重复加载).
-
-`NeoModLoader.utils.WrappedAssetBundle`提供了类似`Resources.Load`, `Resources.LoadAll`的方法来加载资源
+* `LoadSingleSprite(string)` to load a single picture file as a Sprite
+* `LoadSprites(string)` search related `.meta` file(parsed into a `TextureImporter`, and provides a `SpriteSheet`) or `sprites.json` to load picture(s) at/under a path.
