@@ -20,7 +20,7 @@ We configure development environment in the section.
 1. You need to be intellectually complete and have the ability to think for yourself
 2. In order To better solve The problems you will encounter, it is recommended to first read [How To Ask Questions The Smart Way](http://www.catb.org/~esr/faqs/smart-questions.html)
 3. Then you need to master [the most basic CSharp knowledge](https://www.w3schools.com/cs/index.php)
-4. If you can, it is recommended to master [basic Git usage].(https://www.w3schools.com/git/)
+4. If you can, it is recommended to master [basic Git usage](https://www.w3schools.com/git/)
 
 
 
