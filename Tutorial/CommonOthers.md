@@ -14,6 +14,6 @@ Insert IL code into methods to implement what you want. It has a learning cost, 
 
 ## Listener-Handler(Developing)
 
-这是NML引入的一个功能, 简单来说, NML或其他模组提供使用`HarmonyTranspiler`实现的`Listener`来监听原版的函数执行, 并依次调用`Listener`下注册的所有`Handler`来处理.
+It is a feature provided by NML. Simply speaking, NML uses `HarmonyTranspiler` to implement `Listener`s listening to vanilla functions and call all registered and related `Handler` to handle the event. 
 
-NML还会捕获`Handler`执行时发生的异常, 当异常数量大于一定值后, 将会停用该`Handler`来保证游戏的正常运行.
+NML also catches exceptions when `Handler` excuting. When the number of exceptions is greater than a certain value, the Handler will be deactivated to ensure the normal operation of the game.
