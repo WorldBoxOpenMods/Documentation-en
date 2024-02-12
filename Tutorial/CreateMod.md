@@ -51,7 +51,7 @@ using NeoModLoader.api;
 using NeoModLoader.services;
 namespace CHANGEME_TO_YOUR_NAMESPACE;
 
-public class ModClass : IMod, MonoBehaviour
+public class ModClass : MonoBehaviour, IMod
 {
     private ModDeclare _declare;
     private GameObject _gameObject;
