@@ -1,22 +1,22 @@
-# 介绍
+# Introduction
 
-原版的`ItemAsset`同时表示了 武器, 防具, 饰品, 武器材质, 防具材质, 饰品材质, 装备词条 七个内容.
+Vanllia's `ItemAsset` can be Weapon, Armor, Accessory, Weapon Material, Armor Material, Accessory Material, Equipment Modifier at same time.
 
-而实际上这七者并不应该完全被统合到一个类, Maxim 仍然这么做了, 导致`ItemAsset`在不同的位置其字段会有不同的使用情况. 
+But in fact, they should not be unitied into a class entirely. But Maxim did it. It causes `ItemAsset`'s fields have different usage in different places.
 
-相关内容较为繁杂, 对于每个人如果都要研究明白是对模组制作者时间的极大浪费. 
+The related content is complicated. It wastes time to understand all of them.
 
-因此NML提供了相关的装备创建器`NeoModLoader.General.Game.ItemAssetCreator`. 里面的创建函数的参数即为对应`ItemAsset`有用的所有字段.
+So NML provides some creator methods in `NeoModLoader.General.Game.ItemAssetCreator`. Parameters in methods are all valid fields in them.
 
-[相关示例代码](https://github.com/WorldBoxOpenMods/ModExample/blob/master/content/ExampleItems.cs)
+[Related Example Code](https://github.com/WorldBoxOpenMods/ModExample/blob/master/content/ExampleItems.cs)
 
-# 武器材质
+# Weapon Material
 
 使用`CreateWeaponMaterial`创建`ItemAsset`后需要自行加入到`AssetManager.items_material_weapon`.
 
 `CreateWeaponMaterial`参数如下
 
-|参数名|类型|解释|备注|必需|
+|Parameter|Type|解释|备注|Neccessary|
 |:----:|:----:|:----:|:----:|:----:|
 |id|string|武器材质的id|应当唯一|√|
 |base_stats|BaseStats|属性加成|-|×|
@@ -29,13 +29,13 @@
 |quality|ItemQuality|武器品质的最小值|-|×|
 |tech_needed|string|打造该武器需要的<br>科技id|-|×|
 
-# 饰品/防具材质
+# Accessory/Armor Material
 
 使用`CreateAccessoryOrArmorMaterial`创建`ItemAsset`后需要自行加入到`AssetManager.items_material_accessory`或`AssetManager.items_material_armor`.
 
 `CreateAccessoryOrArmorMaterial`参数如下
 
-|参数名|类型|解释|备注|必需|
+|Parameter|Type|解释|备注|Neccessary|
 |:----:|:----:|:----:|:----:|:----:|
 |id|string|武器材质的id|应当唯一|√|
 |base_stats|BaseStats|属性加成|-|×|
@@ -47,13 +47,13 @@
 |quality|ItemQuality|武器品质的最小值|-|×|
 |tech_needed|string|打造该武器需要的<br>科技id|-|×|
 
-# 近战武器
+# Melee Weapon
 
 使用`CreateMeleeWeapon`创建`ItemAsset`后会自动加入到`AssetManager.items`
 
 `CreateMeleeWeapon`参数如下
 
-|参数名|类型|解释|备注|必需|
+|Parameter|Type|解释|备注|Neccessary|
 |:----:|:----:|:----:|:----:|:----:|
 |id|string|武器的id|应当唯一<br>与所有其他装备不同|√|
 |base_stats|BaseStats|属性加成|-|×|
@@ -68,13 +68,13 @@
 |equipment_value|int|装备评估价值加成|-|×|
 |path_slash_animation|string|攻击动画|-|×|
 
-# 远程武器
+# Range Weapon
 
 使用`CreateRangeWeapon`创建`ItemAsset`后会自动加入到`AssetManager.items`
 
 `CreateRangeWeapon`参数如下
 
-|参数名|类型|解释|备注|必需|
+|Parameter|Type|解释|备注|Neccessary|
 |:----:|:----:|:----:|:----:|:----:|
 |id|string|武器的id|应当唯一<br>与所有其他装备不同|√|
 |projectile|string|投掷物的id|使用现成投掷物<br>或自己添加<br>对应投掷物|√|
@@ -90,13 +90,13 @@
 |equipment_value|int|装备评估价值加成|-|×|
 |path_slash_animation|string|攻击动画|-|×|
 
-# 饰品/防具
+# Accessory/Armor
 
 使用`CreateArmorOrAccessory`创建`ItemAsset`后会自动加入到`AssetManager.items`
 
 `CreateArmorOrAccessory`参数如下
 
-|参数名|类型|解释|备注|必需|
+|Parameter|Type|解释|备注|Neccessary|
 |:----:|:----:|:----:|:----:|:----:|
 |id|string|装备的id|应当唯一<br>与所有其他装备不同|√|
 |equipmentType|EquipmentType|饰品/防具类型|不能是武器|√|
@@ -111,13 +111,13 @@
 |special_effect_interval|float|持有时不断触发的Action<br>的触发间隔|单位为秒|×|
 |equipment_value|int|装备评估价值加成|-|×|
 
-# 装备词条
+# Equipment Modifier
 
 使用`CreateAndAddModifier`创建`ItemAsset`后会自动加入到`AssetManager.items_modifiers`并更新到对应的`pool`
 
 `CreateAndAddModifier`参数如下
 
-|参数名|类型|解释|备注|必需|
+|Parameter|Type|解释|备注|Neccessary|
 |:----:|:----:|:----:|:----:|:----:|
 |id|string|词条的id|应当唯一<br>与所有其他词条不同|√|
 |mod_type|string|词条的类型|用于判断是否为同类型词条<br>同类型词条才能比较等级|√|
