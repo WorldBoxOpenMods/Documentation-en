@@ -1,51 +1,50 @@
-# 介绍
+# Introduction
 
-这可以说是整个NML里最有技术的一个内容了, 但它的使用方法非常简单. 
+This can be said to be the most technical aspect of the entire NML, but its usage is very simple.
 
-你只需要会加一行`[Hotfixable]`, 设置`Config.isEditor=true`, 然后点一下按钮就差不多了.
+You only need to add `[Hotfixable]` for a method and set `Config.isEditor=true` and then click button.
 
-这个功能一般用来Debug, 考虑这样的一个场景:
+The function is often used to debug. Consider such a scene:
 
 ```
-这里有一个bug, 从游戏开始到这个bug触发需要非常长的一段时间.
+Here is a bug. It needs a lot of time to trigger.
 
-这个bug在存读档后就会消失.
+The bug will disappear after save-load.
 
-这个bug在出现后会保持一段时间.
+The bug will keep a long time after appearing.
 ```
 
-如果采用原始的, 加Log, 然后不断重启游戏来获取信息, 并进行修改测试的方法, 毫无疑问, 会消耗极大量的时间.
+If you add log and restart game once and once again to get information of the bug, it wastes a lot of time.
 
-如果你使用这个技术, 那么, 你可以暂停游戏, 然后现场修改模组代码并添加log或尝试修复bug, 然后简单地点击重载模组, 即可查看结果.
+If you uses the function, you can pause game, and modify your mod code, add log or even try to fix the bug. Then click button to reload your mod, you can see result.
 
-除此之外, UI设计也是, 在不使用Unity Editor(NeoMod的开发包可以使用Unity Editor进行设计并使用IDE调试模组, 尚未公开, 但C# 8实在不好用), 纯靠代码, 也可以在模组主类的`Reload`中添加对UI组件的摧毁和重新初始化.
+Except above, you can use it on UI designing.
 
-# 使用方法
+# Usage
 
-1. 让你的模组主类实现`IReloadable`模组功能接口.
+1. Implement `IReloadable` and set `Config.isEditor=true`
+2. Launch game
+3. Meet problem
+4. Add `Hotfixable` attribute to methods to modify
+5. Modify methods
+6. Click Reload Button of your mod
    
-2. 运行游戏
-3. 遇到问题
-4. 给需要修改的函数添加`Hotfixable`特性
-5. 修改函数
-6. 点击游戏内的模组重载按钮
+# Example
 
-# 使用示例
+No video now.
 
-视频没录, 等等吧, 上面应该说得很清楚了.
+[Example Part 1](https://github.com/WorldBoxOpenMods/ModExample/blob/master/content/ExampleTraits.cs)
 
-[代码的示例第一部分](https://github.com/WorldBoxOpenMods/ModExample/blob/master/content/ExampleTraits.cs)
+[Example Part 2](https://github.com/WorldBoxOpenMods/ModExample/blob/master/ExampleModCode.cs#L55)
 
-[代码的示例第二部分](https://github.com/WorldBoxOpenMods/ModExample/blob/master/ExampleModCode.cs#L55)
+# Tips
 
-# 提示
-
-1. `MonoBehaviour`的几个如`Awake`,`Update`等函数无法添加`Hotfixable`特性
-2. 构造函数和析构函数不能添加`Hotfixable`特性
-3. `Reload`函数本身也能添加`Hotfixable`特性
-4. 你可以在游戏运行时给别的函数加上`Hotfixable`
-5. 你可以在游戏运行时定义新的函数, 也需要标注`Hotfixable`
-6. 匿名函数也可以标注`Hotfixable`进行热更新, 下面所示代码
+1. You cannot add `Hotfixable` to `MonoBehaviour`'s methods such as `Awake`,`Update`
+2. You cannot add `Hotfixable` to constructor or deconstructor of a class
+3. You can add `Hotfixable` to `Reload`
+4. You can add `Hotfixable` at runtime
+5. You can create a new method at runtime through `Hotfixable`
+6. You can add `Hotfixable` to lambda method, like below:
 
 ```csharp
 trait.action_special_effect = [Hotfixable] (pTarget, pTile) =>
