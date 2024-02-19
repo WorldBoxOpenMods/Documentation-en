@@ -1,41 +1,70 @@
-# 介绍
+# Introduction
 
-NML为模组提供了多语言文本的支持, 支持能够在游戏内顺利切换语言.
+NML provides multilingual support for mods. You can switch language in game.
 
-[csv类型示例](https://github.com/WorldBoxOpenMods/ModExample/blob/master/Locales/items_lang.csv)
+NML supports to load two format locale files: csv and json.
 
-[json类型示例](https://github.com/WorldBoxOpenMods/ModExample/blob/master/Locales/cz.json)
+[csv Example](https://github.com/WorldBoxOpenMods/ModExample/blob/master/Locales/items_lang.csv)
 
-[手动加载示例](https://github.com/WorldBoxOpenMods/ModExample/blob/master/ExampleModCode.cs#L62)大约在62行左右, `Reload`函数中, 自行寻找
+[json Example](https://github.com/WorldBoxOpenMods/ModExample/blob/master/Locales/cz.json)
 
-# 使用
+[Load Manually Example](https://github.com/WorldBoxOpenMods/ModExample/blob/master/ExampleModCode.cs#L62)About line 62, in `Reload`, find it yourself.
 
-NML在语言文本的支持集中在`NeoModLoader.General.LM`
+# Usage
 
-你可以用`LM.Get`来获取一个key在当前语言情况下对应的文本.
+`NeoModLoader.General.LM` provides some utilities to use localization
 
-`LM.LoadLocales`用于读取`.csv`类型的文本文件来加载语言文本
+`LM.Get` is used to get text of a given key in current language
+```csharp
+LM.Get("Humans"); // It returns "人类" if your game language is Chinese
+```
 
-`LM.LoadLocale`用于读取`.json`类型的文本文件来加载语言文本
+`LM.LoadLocales` is used to load `.csv` format locale file.
+```csharp
+LM.LoadLocales("path-to-csv-file");
+```
 
-`LM.AddToCurrentLocale`用于将语言文本动态加载
+`LM.LoadLocale` is used to load `.json` format locale file. To be attention, filename of the file should be target language short name. Such as:
 
-`LM.Add`用于将语言文本动态加载给对应的语言
+```csharp
+LM.LoadLocale("path-to-mod-folder/Locales/en.json"); // Load English locale file
+LM.LoadLocale("path-to-mod-folder/Locales/cz.json"); // Load Simplified Chinese locale file
+```
 
-`LM.ApplyLocale`用于将加载语言文本的更改应用到所有`LocalizedText`
+`LM.AddToCurrentLocale` is used to add a localization at runtime instantaneously.
 
-## csv类型的文本文件
+```csharp
+LM.AddToCurrentLocale("Humans", "New Humans Name Locale");
+```
 
-下面是一个例子`lang.csv`
+`LM.Add` is used to add a localization at runtime for a given language.
+
+```csharp
+LM.Add("en", "Humans", "New Humans Name Locale");
+```
+
+`LM.ApplyLocale` applies all changes
+
+```csharp
+LM.ApplyLocale(); // Apply changes of current language and update all LocalizedText
+LM.ApplyLocale(False); // Apply changes of current language but not update all LocalizedText
+LM.ApplyLocale("cz"); // Apply changes of Simplified Chinese and update all LocalizedText
+LM.ApplyLocale("cz", False); // Apply changes of Simplified Chinese but not update all LocalizedText
+```
+
+## csv format locale file
+
+The following is an example of `lang.csv`
 ```csv
 key,cz,en,ch
 Humans,人类,Humans,人類
 Orcs,兽人,Orcs,獸人
 ```
+Filename of csv format file is not important
 
-## json类型的文本文件
+## json format locale file
 
-下面是一个例子
+The following is an example for Simplified Chinese
 ```jsonc
 // cz.json
 {
@@ -43,7 +72,8 @@ Orcs,兽人,Orcs,獸人
     "Orcs": "兽人"
 }
 ```
+Filename of json format file should be correspond to its language.
 
-# 自动加载
+# Automatically load
 
-你的模组主类需要实现`ILocalizable`接口, 在`GetLocaleFilesDirectory`返回语言文本文件夹的路径(真实文件系统). 在语言文本文件夹下的`.csv`会被加载, `.json`文件会被加载为其无后缀文件名的语言文本(如`cz.json`会给代码为`cz`的语言加载语言文本)
+You need to implements `ILocalizable` interface for you mod main class. `GetLocaleFilesDirectory` returns path to locale files' folder. `.csv` and `.json` files in the folder will be loaded before your mod's loading.
