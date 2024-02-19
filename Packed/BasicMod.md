@@ -1,14 +1,14 @@
-基础模组指的是 `BasicMod`
+Basic Mod is exactly class `BasicMod`. If you want these features, you should make your mod main class inherit from `BasicMod` instead of `MonoBehaviour` and `IMod`.
 
-# 模组加载
+# Mod Loading
 
-与`IMod`略有不同, 在`BasicMod`中实现了`IMod`的`OnLoad`, 调用`OnModLoad`来初始化模组.
+`BasicMod` is different with `IMod` in modder's layer. BasicMod implements `OnLoad` in IMod, and call `OnModLoad` to initialize mod. You should implement OnModLoad in BasicMod instead of OnLoad.
 
-# 多语言文本
+# Multilingual
 
-`BasicMod`提供了自动加载`Locales`文件夹下的语言文件. `cz.json`是简体中文, `en.json`是英文, `ch.json`是繁体中文.
+`BasicMod` loads files under folder `Locales` automatically. `cz.json` is Simplified Chinese, `en.json` is English, `ch.json` is Tranditional Chinese.
 
-下面是一个例子
+The following is an example of localization for Simplified Chinese in JSON format.
 ```jsonc
 // cz.json
 {
@@ -17,29 +17,27 @@
 }
 ```
 
-除了`.json`文件外, 你也可以使用`.csv`文件来表示语言文件.
+Except of `.json` file, you can also use `.csv` to make localization.
 
-下面是一个例子`lang.csv`
+The following is an example `lang.csv`
 ```csv
 key,cz,en,ch
 Humans,人类,Humans,人類
 Orcs,兽人,Orcs,獸人
 ```
 
-# 模组设置
+File name for `.csv` is not important.
 
-`BasicMod`设定了默认模组设置文件(模组文件夹下`default_config.json`文件)与恒久保存的模组设置文件.
+# Mod Configuration
 
-`default_config.json`写法见[模组设置](../BasicConcept/ModConfiguration.md)
+`BasicMod` provides default mod configuration file(`default_config.json` under mod's folder) and consistent user's mod configuration.
 
-## 默认模组设置文件
+You can write `default_config.json` refer to [Mod Configuration](../BasicConcept/ModConfiguration.md)
 
-给出了模组设置的格式
+## Default mod configuration file
 
-### 当默认模组设置添加/修改设置项(不包括项默认值)
+It provides format of mod configuration and default values for them.
 
-恒久模组设置也会添加对应的设置项, 值为默认值
+### When add/remove configuration item(excluding modifying default value)
 
-### 当默认模组设置删除设置项
-
-恒久模组设置也会删除对应的设置项.
+Consistent user's mod configuration will add/remove corresponding items with new default values.

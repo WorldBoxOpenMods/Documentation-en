@@ -1,24 +1,28 @@
-NML中模组依赖分为硬依赖和软依赖两种
+Mod Dependencies in NML are divided into two categories: Hard dependency and soft dependency.
 
-# 硬依赖
+# Hard Dependency
 
-也称必需依赖, 只有当所有硬依赖的模组均加载了才会被加载.
+It is also called neccessary dependency. A mod will be loaded only when all of its hard dependencies are loaded.
 
-硬依赖在`mod.json`中声明硬依赖于某些模组, 而后在项目文件中添加对硬依赖的模组的引用即可(让IDE给出正常的代码分析).
+You can declare your mod hard dependent to some mods, and add reference to compiled DLL of them in project file(.csproj file) to make IDE give correct code analysis.
 
-# 软依赖
+# Soft Dependency
 
-也称可选依赖, 当软依赖模组不存在时也能被加载. 如果带软依赖模组时编译失败后, 会尝试取消依赖于所有软依赖模组后再次编译.
+It is also called optional dependency. A mod will be loaded no matter how many its soft dependencies loaded succefully. When a mod with soft dependencies are failed to compile, NML will try to compile it again without any soft dependencies.
 
-为了在软依赖的模组缺失时仍能正常编译运行, NML采用宏来控制编译.
+To implement it, NML uses macro to control compilation.
 
-当软依赖模组存在时, NML在编译时会加入软依赖模组的ID作为宏, 不存在时则不会添加.
+When a soft dependent mod exists, NML will add its ID as macro when compiling your mod.
 
-下面的代码是在示例模组(软依赖于"一米_中文名")中, 根据"一米_中文名"模组是否存在来选择添加命名器的方式
+The following is in ModExample(soft dependent on "一米_中文名"). It implements the function of adding different name generators according to whether "一米_中文名" exists or not.
+
+In above, "一米_中文名" is a Chinese mod for Chinese name generator. Because name rule in Chinese is distinct with Romance language family.
+
+Name generator is used in naming custom creatures, custom items and custom races' kingdom, city, culture and so on. It is an important part in game.
 
 ```csharp
-// 用宏包裹所有"可选"依赖. "一米_中文名"是这个可选依赖的模组id. Chinese_Name是模组"一米_中文名"提供的命名空间.
 using System.IO;
+// Uses macro to wrap all soft dependencies' code. "一米_中文名" is the ID of the soft dependency. Chinese_Name is a namespace provided by the mod. As shown below.
 #if 一米_中文名
 using Chinese_Name;
 #endif
@@ -29,46 +33,47 @@ internal static class ExampleNameGenerators
 {
     public static void init()
     {
-        // 如果模组"一米_中文名"被编译, 初始化中文名生成器. 否则, 初始化原版名字生成器.
+        // If Chinese Name mod is compiled successfully, initialize Chinese name generators. Otherwise, initialize vanilla name generators
 #if 一米_中文名
         init_chinese_name_generators();
 #else
         init_vanilla_name_generators();
 #endif
     }
-#if 一米_中文名
     private static void init_chinese_name_generators()
     {
-        // 因为下面的方法和类是由模组"一米_中文名"提供的, 你应该用宏包裹它们.
-        WordLibraryManager.SubmitDirectoryToLoad(Path.Combine(ExampleModMain.Instance.GetDeclaration().FolderPath,
+        string mod_folder = ExampleModMain.Instance.GetDeclaration().FolderPath;
+        // Because the classes and methods are provided by ChineseName, you should wrap them with macro
+#if 一米_中文名
+        WordLibraryManager.SubmitDirectoryToLoad(Path.Combine(mod_folder,
             "additional_resources/word_libraries"));
-        CN_NameGeneratorLibrary.SubmitDirectoryToLoad(Path.Combine(ExampleModMain.Instance.GetDeclaration().FolderPath,
+        CN_NameGeneratorLibrary.SubmitDirectoryToLoad(Path.Combine(mod_folder,
             "additional_resources/name_generators"));
-    }
 #endif
+    }
     private static void init_vanilla_name_generators()
     {
-        // 暂时没有内容
+        // No content yet
     }
 }
 ```
 
-在IDE中, 你也需要添加对依赖模组的引用, 除此之外, 你还需要在项目文件中添加模组ID为预定义常量(这一行都是针对你要使用完整IDE功能的情况)
+For IDE code analysis, you should add reference to dependent mods' DLL. And you need to add mod's ID as predefined constants(All of the line is based on the fact that you want to use full features of IDE)
 
-[相关示例代码](https://github.com/WorldBoxOpenMods/ModExample/blob/master/content/ExampleNameGenerators.cs)
+[Related Example Code](https://github.com/WorldBoxOpenMods/ModExample/blob/master/content/ExampleNameGenerators.cs)
 
-[mod.json配置示例](https://github.com/WorldBoxOpenMods/ModExample/blob/master/mod.json)
+[Related Example mod.json](https://github.com/WorldBoxOpenMods/ModExample/blob/master/mod.json)
 
-[预定义常量配置示例](https://github.com/WorldBoxOpenMods/ModExample/blob/master/ExampleMod.csproj#L21)
+[Related Predefined constant](https://github.com/WorldBoxOpenMods/ModExample/blob/master/ExampleMod.csproj#L7)
 
-# 如何添加对依赖模组的引用
+# How to reference to dependent mods
 
-[相关示例](https://github.com/WorldBoxOpenMods/ModExample/blob/master/ExampleMod.csproj#L66)
+[Related example](https://github.com/WorldBoxOpenMods/ModExample/blob/master/ExampleMod.csproj#L44-L46)
 
-## DLL引用
+## DLL reference
 
-引用在`worldbox_Data/StreamingAssets/mods/NML/CompiledMods`中, 名为对应模组ID的.dll文件
+All files you need to reference are in `worldbox_Data/StreamingAssets/mods/NML/CompiledMods`. They are named as "ModID.dll"
 
-## 项目引用
+## Project reference
 
-如果发布的依赖模组中包含了项目文件, 可以直接引用依赖模组的项目文件.
+If released dependent mod contains project file(.csproj), you can reference to it directly(You need to search methods in the web)

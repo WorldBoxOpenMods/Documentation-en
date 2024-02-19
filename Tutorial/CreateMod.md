@@ -31,7 +31,9 @@ Then initialize your mod in `OnModLoad` in file `ModClass.cs`. `BasicMod` inheri
 # Create from empty folder
 
 ## Create folder
-Create a folder under `GAMEPATH/Mods`, create such two files `mod.json` and `Main.cs` like below. If you use IDE, you should create a `.Net Framework4.8` project under `GAMEPATH/Mods`. 
+Create a folder under `GAMEPATH/Mods`, create such two files `mod.json` and `Main.cs` like below. 
+
+If you use IDE, you should create a `.Net Framework4.8` project under `GAMEPATH/Mods` and then create the two files `mod.json` and `Main.cs` below. You can create the project through IDE or write it manually refer to [Configure your IDE manually](#Configure-IDE) 
 
 ```json
 // mod.json
