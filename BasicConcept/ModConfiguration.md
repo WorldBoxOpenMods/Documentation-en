@@ -1,22 +1,30 @@
 # Introduction
 
-NML provides user friendly interface for `ModConfig`, like below:
+NML provides a user friendly interface for `ModConfig`, like below:
 
 ![ModConfig](../.gitbook/assets/MODCONFIG.png)
 
-[Corresponded config file Example](https://github.com/WorldBoxOpenMods/ModExample/blob/master/default_config.json)
+[Corresponding config file Example](https://github.com/WorldBoxOpenMods/ModExample/blob/master/default_config.json)
 
-For such a window, you should implements `IConfigurable` interface for your mod main class. Return an instance of `ModConfig` to pass and receive configuration result through `GetConfig`.
+There are two ways of setting up your project to use this window.
 
-For BasicMod, you do not need to consider the above. You only need to create a file named `default_config.json` under your mod folder.(ModTemplate provides a default one), and add/edit it. 
+If your main class implements `IMod`, you need to implement the `IConfigurable` interface with the same class. Return an instance of `ModConfig` to pass and receive the configuration result through your main class' `GetConfig()` method.
 
-`default_config.json` is an abstract serialized `ModConfig`. It provides a format and default values for configuration. And user's configuration will be saved in other file consistently.
+If your main class implements `BasicMod<T>`, you do not need to implement `IConfigurable`. You only need to create a file named `default_config.json` under your mod folder.([ModTemplate](https://github.com/WorldBoxOpenMods/ModTemplate/tree/master) provides a default one), and edit/add to it.
+
+[Example of using `GetConfig()` with `BasicMod<T>`](https://github.com/WorldBoxOpenMods/ModTemplate/blob/master/ModClass.cs#L13)
+
+`default_config.json` is an abstract serialized `ModConfig`. It provides the format and default values for configuration. The user's configuration will be saved in another file consistently.
 
 # Edit default_config.json
 
 `default_config.json` is a JSON file.
 
-The file will be serialized into an instance of `Dictionary<string, List<ModConfigItem>>`. Wherein, `string` is configuration group's id `groupId`, `List<ModConfigItem>` is configuration items from top to down.
+The file will be deserialized into an instance of `Dictionary<string, Dictionary<string, ModConfigItem>>`, which is retrieved with `ModConfig.GetConfig()`. 
+
+The first `string` is the `groupId` of the config group. In the example default_config.json in ModTemplate the groupId is `"Default"`. The second string is the `Id` of the config item, while `ModConfigItem` is a class which contains methods for getting and setting the value of the config item. 
+
+Note that `ModConfigItem` always returns an `object` so you will need to cast the result of `ModConfigItem.GetValue()` to the intended data type.
 
 For `ModConfigItem`, you need provide:
 
@@ -58,6 +66,6 @@ class ExampleType
 
 [Callback Example](https://github.com/WorldBoxOpenMods/ModExample/blob/master/content/ExampleActions.cs)
 
-To be attention, changes of mod configuration will be applied after configuration window closed instead of realtime.
+Please note, in-game changes to the mod configuration will be applied after you close the configuration window, not in real-time.
 
-Except above, you need to provide locale for `groupId` and `Id`. As for how to provide locale, you can see [Multilingual](Multilingual.md)
+Except above, you need to provide locale definitions for `groupId` and `Id`. Please see [Multilingual](Multilingual.md) for how to provide locale definitions.
