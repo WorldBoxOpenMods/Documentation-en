@@ -10,7 +10,7 @@ There are two ways of setting up your project to use this window.
 
 If your main class implements `IMod`, you need to implement the `IConfigurable` interface with the same class. Return an instance of `ModConfig` to pass and receive the configuration result through your main class' `GetConfig()` method.
 
-If your main class implements `BasicMod<T>`, you do not need to implement `IConfigurable`. You only need to create a file named `default_config.json` under your mod folder.([ModTemplate](https://github.com/WorldBoxOpenMods/ModTemplate/tree/master) provides a default one), and edit/add to it.
+If your main class implements `BasicMod<T>`, you do not need to implement `IConfigurable`. You only need to create a file named `default_config.json` under your mod folder ([ModTemplate](https://github.com/WorldBoxOpenMods/ModTemplate/tree/master) provides a default one), and edit/add to it.
 
 [Example of using `GetConfig()` with `BasicMod<T>`](https://github.com/WorldBoxOpenMods/ModTemplate/blob/master/ModClass.cs#L13)
 
@@ -22,9 +22,11 @@ If your main class implements `BasicMod<T>`, you do not need to implement `IConf
 
 The file will be deserialized into an instance of `Dictionary<string, Dictionary<string, ModConfigItem>>`, which is retrieved with `ModConfig.GetConfig()`. 
 
-The first `string` is the `groupId` of the config group. In the example default_config.json in ModTemplate the groupId is `"Default"`. The second string is the `Id` of the config item, while `ModConfigItem` is a class which contains methods for getting and setting the value of the config item. 
+The first `string` is the `groupId` of the config group. In the example default_config.json in ModTemplate the groupId is `"Default"`. 
 
-Note that `ModConfigItem` always returns an `object` so you will need to cast the result of `ModConfigItem.GetValue()` to the intended data type.
+The second `string` is the `Id` of the config item, while `ModConfigItem` is a class which contains methods for getting and setting the value of the config item. 
+
+Note that `ModConfigItem.GetValue()` always returns an `object` so you will need to cast the result of `ModConfigItem.GetValue()` to the intended data type.
 
 For `ModConfigItem`, you need provide:
 
